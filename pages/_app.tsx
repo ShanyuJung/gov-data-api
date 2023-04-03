@@ -12,7 +12,7 @@ const GlobalStyles = createGlobalStyle`
   }
   
   html,body {
-    min-width: 375px;
+    min-width: 320px;
 }
 `;
 
