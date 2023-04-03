@@ -57,8 +57,14 @@ export default function SearchingGroup() {
           label="縣/市"
           width="165px"
           placeholder="請選擇 縣/市"
+          defaultSuggestions={[]}
         />
-        <SearchingInput label="區" width="165px" placeholder="請先選擇 縣/市" />
+        <SearchingInput
+          label="區"
+          width="165px"
+          placeholder="請先選擇 縣/市"
+          defaultSuggestions={[]}
+        />
         <SubmitButton $isEnable={false}>Submit</SubmitButton>
       </Form>
     </SearchingGroupContainer>
