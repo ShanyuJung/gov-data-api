@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Divider from "./Divider";
 import SearchingGroup from "./SearchingGroup";
 
 const SearchingContainer = styled.div`
@@ -28,13 +29,12 @@ const SearchingTitle = styled.h1`
   }
 `;
 
-function Searching() {
+export default function Searching() {
   return (
     <SearchingContainer>
       <SearchingTitle>人口數、戶數按戶別及性別統計</SearchingTitle>
       <SearchingGroup />
+      <Divider />
     </SearchingContainer>
   );
 }
-
-export default Searching;
