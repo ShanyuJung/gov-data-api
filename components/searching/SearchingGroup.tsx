@@ -1,3 +1,4 @@
+import { COUNTIES } from "@/assets/DUMMY_DATA";
 import { FormEvent } from "react";
 import styled from "styled-components";
 import SearchingInput from "./SearchingInput";
@@ -57,7 +58,7 @@ export default function SearchingGroup() {
           label="縣/市"
           width="165px"
           placeholder="請選擇 縣/市"
-          defaultSuggestions={[]}
+          defaultSuggestions={COUNTIES}
         />
         <SearchingInput
           label="區"

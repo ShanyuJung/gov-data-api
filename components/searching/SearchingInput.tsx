@@ -198,7 +198,17 @@ export default function SearchingInput({
       {isFocused && (
         <DropDownMenu>
           {suggestions.map((item) => {
-            return <DropDownItem>{item}</DropDownItem>;
+            return (
+              <DropDownItem
+                key={item}
+                onClick={() => {
+                  setInputValue(item);
+                  setIsFocused(false);
+                }}
+              >
+                {item}
+              </DropDownItem>
+            );
           })}
         </DropDownMenu>
       )}
