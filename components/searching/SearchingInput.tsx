@@ -65,6 +65,19 @@ const Input = styled.input<{ width: string }>`
   }
 `;
 
+const CleanButton = styled.button<{ $isShowButton: boolean }>`
+  position: absolute;
+  right: 27px;
+  border: none;
+  background-color: transparent;
+  display: ${(props) => (props.$isShowButton ? "inline-block" : "none")};
+  cursor: pointer;
+
+  @media (max-width: 1160px) {
+    right: 37px;
+  }
+`;
+
 const SvgWrapper = styled.div`
   margin-left: -26px;
 `;
@@ -83,6 +96,7 @@ const DropDownMenu = styled.ul`
   border-radius: 4px;
   padding: 12px 0;
   max-height: 258px;
+  overflow-y: auto;
 
   @media (max-width: 1160px) {
     width: 100%;
@@ -97,6 +111,7 @@ const DropDownItem = styled.li`
   height: 23px;
   padding-left: 16px;
   width: 100%;
+  cursor: pointer;
 `;
 
 export default function SearchingInput({
@@ -113,6 +128,7 @@ export default function SearchingInput({
   const [inputValue, setInputValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>(defaultSuggestions);
   const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isShowButton, setIsShowButton] = useState<boolean>(false);
   const ref = useRef(null);
 
   useOnClickOutside(ref, () => setIsFocused(false));
@@ -125,7 +141,15 @@ export default function SearchingInput({
   }, [defaultSuggestions, inputValue]);
 
   return (
-    <SearchingInputContainer ref={ref}>
+    <SearchingInputContainer
+      ref={ref}
+      onMouseEnter={() => {
+        setIsShowButton(true);
+      }}
+      onMouseLeave={() => {
+        setIsShowButton(false);
+      }}
+    >
       <SearchingLabel $isFocus={isFocused}>{label}</SearchingLabel>
       <Input
         type="text"
@@ -139,6 +163,27 @@ export default function SearchingInput({
           setInputValue(e.target.value);
         }}
       />
+      {inputValue && (
+        <CleanButton
+          $isShowButton={isShowButton}
+          onClick={() => {
+            setInputValue("");
+          }}
+        >
+          <svg
+            width="13"
+            height="12"
+            viewBox="0 0 13 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.42308 12L0.5 11.0769L5.57692 6L0.5 0.923077L1.42308 0L6.5 5.07692L11.5769 0L12.5 0.923077L7.42308 6L12.5 11.0769L11.5769 12L6.5 6.92308L1.42308 12Z"
+              fill="#797979"
+            />
+          </svg>
+        </CleanButton>
+      )}
       <SvgWrapper>
         <svg
           width="12"
