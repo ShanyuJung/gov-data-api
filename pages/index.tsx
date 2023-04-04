@@ -1,4 +1,28 @@
+import Brand from "@/components/brand/Brand";
+import Searching from "@/components/searching/Searching";
 import Head from "next/head";
+import styled from "styled-components";
+
+const Main = styled.main`
+  width: 100%;
+`;
+
+const Container = styled.div`
+  display: flex;
+  padding-top: 8px;
+  padding-left: 149px;
+
+  @media (max-width: 1160px) {
+    padding-left: 0px;
+  }
+`;
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+`;
 
 export default function Home() {
   return (
@@ -9,7 +33,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main />
+      <Main>
+        <Brand />
+        <Container>
+          <Wrapper>
+            <Searching />
+          </Wrapper>
+        </Container>
+      </Main>
     </>
   );
 }
