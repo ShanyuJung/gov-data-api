@@ -72,6 +72,7 @@ const DropDownMenu = styled.ul`
   border-radius: 4px;
   padding: 12px 0;
   max-height: 258px;
+  overflow-y: auto;
 `;
 
 const DropDownItem = styled.li`
@@ -82,6 +83,7 @@ const DropDownItem = styled.li`
   height: 23px;
   padding-left: 16px;
   width: 100%;
+  cursor: pointer;
 `;
 
 const SUGGESTION = [106, 107, 108, 109, 110];
