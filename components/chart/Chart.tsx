@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import BarChart from "./BarChart";
+import PieChart from "./PieChart";
 
 const ChartContainer = styled.div`
   display: flex;
@@ -29,9 +30,19 @@ const ErrorMessage = styled.h1`
   color: red;
 `;
 
+const ChartWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
 const BAR_CHART_OPTIONS = {
   title: "人口數統計",
   categories: ["共同生活", "獨立生活"],
+};
+
+const PIE_CHART_OPTIONS = {
+  title: "戶數統計",
 };
 
 export default function Chart() {
@@ -41,6 +52,9 @@ export default function Chart() {
   const { errorMessage, items } = chartData;
   const [barDataMale, setBarDataMale] = useState<number[]>([]);
   const [barDataFemale, setBarDataFemale] = useState<number[]>([]);
+  const [pieData, setPieData] = useState<{ category: string; total: number }[]>(
+    []
+  );
 
   useEffect(() => {
     if (typeof params === "string" || typeof params === "undefined") return;
@@ -71,6 +85,21 @@ export default function Chart() {
 
     setBarDataMale([sumOrdinaryMale, sumSingleMale]);
     setBarDataFemale([sumOrdinaryFemale, sumSingleFemale]);
+
+    const sumOrdinary = items
+      .map((item) => Number(item.household_ordinary_total))
+      .reduce((acc, cur) => {
+        return acc + cur;
+      }, initialValue);
+    const sumSingle = items
+      .map((item) => Number(item.household_single_total))
+      .reduce((acc, cur) => {
+        return acc + cur;
+      }, initialValue);
+    setPieData([
+      { category: "共同生活", total: sumOrdinary },
+      { category: "獨立生活", total: sumSingle },
+    ]);
   }, [router.isReady, params]);
 
   if (typeof params === "string" || typeof params === "undefined") return null;
@@ -82,12 +111,15 @@ export default function Chart() {
       <ChartTitle>{`${params[0]}年 ${params[1]} ${params[2]}`}</ChartTitle>
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       {!errorMessage && (
-        <BarChart
-          title={BAR_CHART_OPTIONS.title}
-          categories={BAR_CHART_OPTIONS.categories}
-          maleData={barDataMale}
-          femaleData={barDataFemale}
-        />
+        <ChartWrapper>
+          <BarChart
+            title={BAR_CHART_OPTIONS.title}
+            categories={BAR_CHART_OPTIONS.categories}
+            maleData={barDataMale}
+            femaleData={barDataFemale}
+          />
+          <PieChart title={PIE_CHART_OPTIONS.title} categories={pieData} />
+        </ChartWrapper>
       )}
     </ChartContainer>
   );
