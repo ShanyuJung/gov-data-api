@@ -21,15 +21,15 @@ const ChartTitle = styled.h1`
 
 export default function Chart() {
   const router = useRouter();
-  const params = router.query.data as string[];
+  const params = router.query.data;
 
-  if (!router.isReady) return null;
+  if (typeof params === "string" || typeof params === "undefined") return null;
+
+  if (!router.isReady || !params[0] || !params[1] || !params[2]) return null;
 
   return (
     <ChartContainer>
-      {!!params[0] && !!params[1] && !!params[2] && (
-        <ChartTitle>{`${params[0]}年 ${params[1]} ${params[2]}`}</ChartTitle>
-      )}
+      <ChartTitle>{`${params[0]}年 ${params[1]} ${params[2]}`}</ChartTitle>
     </ChartContainer>
   );
 }
