@@ -1,0 +1,47 @@
+{
+  "ODRP019Type": {
+    "type": "object",
+    "properties": {
+      "statistic_yyy": { "description": "統計年", "type": "string" },
+      "district_code": { "description": "區域別代碼", "type": "string" },
+      "site_id": { "description": "區域別", "type": "string" },
+      "village": { "description": "村里名稱", "type": "string" },
+      "household_ordinary_total": {
+        "description": "共同生活戶_戶數",
+        "type": "string"
+      },
+      "household_business_total": {
+        "description": "共同事業戶_戶數",
+        "type": "string"
+      },
+      "household_single_total": {
+        "description": "單獨生活戶_戶數",
+        "type": "string"
+      },
+      "household_ordinary_m": {
+        "description": "共同生活戶_男",
+        "type": "string"
+      },
+      "household_business_m": {
+        "description": "共同事業戶_男",
+        "type": "string"
+      },
+      "household_single_m": {
+        "description": "單獨生活戶_男",
+        "type": "string"
+      },
+      "household_ordinary_f": {
+        "description": "共同生活戶_女",
+        "type": "string"
+      },
+      "household_business_f": {
+        "description": "共同事業戶_女",
+        "type": "string"
+      },
+      "household_single_f": {
+        "description": "單獨生活戶_女",
+        "type": "string"
+      }
+    }
+  }
+}

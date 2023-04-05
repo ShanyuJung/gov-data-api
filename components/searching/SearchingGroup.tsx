@@ -1,4 +1,9 @@
-import { FormEvent } from "react";
+import { COUNTIES, DISTRICTS_OBJ } from "@/assets/DUMMY_DATA";
+import { AppDispatch, RootState } from "@/store";
+import { chartDataActions } from "@/store/chartDataSlice";
+import { useRouter } from "next/router";
+import { FormEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import SearchingInput from "./SearchingInput";
 import YearInput from "./YearInput";
@@ -45,9 +50,40 @@ const SubmitButton = styled.button<{ $isEnable: boolean }>`
 `;
 
 export default function SearchingGroup() {
+  const chartData = useSelector((state: RootState) => state.chartData);
+  const { year, county, district, isFetching } = chartData;
+  const [districtSuggestions, setDistrictSuggestions] = useState<string[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+
+  const selectCountyHandler = (selectedCounty: string) => {
+    dispatch(chartDataActions.selectCounty({ county: selectedCounty }));
+  };
+
+  const cleanCountyHandler = () => {
+    dispatch(chartDataActions.cleanCounty());
+  };
+
+  const selectDistrictHandler = (selectedDistrict: string) => {
+    dispatch(chartDataActions.selectDistrict({ district: selectedDistrict }));
+  };
+
+  const cleanDistrictHandler = () => {
+    dispatch(chartDataActions.cleanDistrict());
+  };
+
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isFetching) return;
+    if (!year || !county || !district) return;
+    router.push(`${year}/${county}/${district}`);
   };
+
+  useEffect(() => {
+    const newSuggestions = DISTRICTS_OBJ[`${county}`]?.districts || [];
+    if (newSuggestions.length === 0) return;
+    setDistrictSuggestions([...newSuggestions]);
+  }, [county]);
 
   return (
     <SearchingGroupContainer>
@@ -57,15 +93,25 @@ export default function SearchingGroup() {
           label="縣/市"
           width="165px"
           placeholder="請選擇 縣/市"
-          defaultSuggestions={[]}
+          defaultSuggestions={COUNTIES}
+          inputValue={county}
+          setValueHandler={selectCountyHandler}
+          cleanValueHandler={cleanCountyHandler}
         />
         <SearchingInput
           label="區"
           width="165px"
           placeholder="請先選擇 縣/市"
-          defaultSuggestions={[]}
+          defaultSuggestions={districtSuggestions}
+          inputValue={district}
+          setValueHandler={selectDistrictHandler}
+          cleanValueHandler={cleanDistrictHandler}
         />
-        <SubmitButton $isEnable={false}>Submit</SubmitButton>
+        <SubmitButton
+          $isEnable={!!year && !!county && !!district && !isFetching}
+        >
+          Submit
+        </SubmitButton>
       </Form>
     </SearchingGroupContainer>
   );

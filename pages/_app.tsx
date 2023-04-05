@@ -1,5 +1,7 @@
 import Header from "@/components/header/Header";
+import store from "@/store";
 import type { AppProps } from "next/app";
+import { Provider } from "react-redux";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
@@ -31,10 +33,10 @@ const GlobalStyles = createGlobalStyle`
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyles />
       <Header />
       <Component {...pageProps} />
-    </>
+    </Provider>
   );
 }
