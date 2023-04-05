@@ -1,17 +1,28 @@
 import Brand from "@/components/brand/Brand";
 import Chart from "@/components/chart/Chart";
+import LoadingSpinner from "@/components/loading/LoadingSpinner";
 import Searching from "@/components/searching/Searching";
-import { AppDispatch } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import { fetchDataHandler } from "@/store/chartDataActions";
 import { chartDataActions } from "@/store/chartDataSlice";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components";
 import { Container, Main, Wrapper } from ".";
 
+const SpinnerWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+`;
+
 export default function SearchingHome() {
-  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
+  const chartData = useSelector((state: RootState) => state.chartData);
+  const { isFetching } = chartData;
+  const router = useRouter();
   const params = router.query.data;
 
   useEffect(() => {
@@ -48,7 +59,12 @@ export default function SearchingHome() {
       <Container>
         <Wrapper>
           <Searching />
-          <Chart />
+          {!isFetching && <Chart />}
+          {isFetching && (
+            <SpinnerWrapper>
+              <LoadingSpinner />
+            </SpinnerWrapper>
+          )}
         </Wrapper>
       </Container>
     </Main>

@@ -10,14 +10,19 @@ export const fetchDataHandler = (
 ) => {
   return async (
     dispatch: (arg0: {
-      type: "chartData/updateItems";
-      payload: { items: [] };
+      payload: undefined | { items: IResponseData };
+      type:
+        | "chartData/startFetching"
+        | "chartData/updateItems"
+        | "chartData/endFetching";
     }) => void
   ) => {
+    dispatch(chartDataActions.startFetching());
     const response = await api.getData(year, county, district);
     if (response.responseCode === "OD-0101-S") {
       const newItems = response.responseData as IResponseData[];
       dispatch(chartDataActions.updateItems({ items: newItems }));
     }
+    dispatch(chartDataActions.endFetching());
   };
 };

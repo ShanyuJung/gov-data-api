@@ -6,6 +6,7 @@ const initialState = {
   county: "",
   district: "",
   items: [],
+  isFetching: false,
 };
 
 const chartDataSlice = createSlice({
@@ -30,6 +31,12 @@ const chartDataSlice = createSlice({
     },
     updateItems(state, action) {
       state.items = action.payload.items;
+    },
+    startFetching(state) {
+      state.isFetching = true;
+    },
+    endFetching(state) {
+      state.isFetching = false;
     },
   },
 });
