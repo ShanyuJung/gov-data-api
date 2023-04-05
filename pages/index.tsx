@@ -3,11 +3,11 @@ import Searching from "@/components/searching/Searching";
 import Head from "next/head";
 import styled from "styled-components";
 
-const Main = styled.main`
+export const Main = styled.main`
   width: 100%;
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   padding-top: 8px;
   padding-left: 149px;
@@ -17,10 +17,11 @@ const Container = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   flex-grow: 1;
 `;
 

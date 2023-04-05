@@ -1,5 +1,8 @@
+import { AppDispatch, RootState } from "@/store";
+import { chartDataActions } from "@/store/chartDataSlice";
 import { useOnClickOutside } from "@/utils/hooks";
 import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 const SearchingInputContainer = styled.div`
@@ -95,9 +98,21 @@ export default function YearInput({
   label: string;
   width: string;
 }) {
-  const [inputValue, setInputValue] = useState<number>(110);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const ref = useRef(null);
+  const chartData = useSelector((state: RootState) => state.chartData);
+  const { year } = chartData;
+  const dispatch = useDispatch<AppDispatch>();
+
+  const selectYearHandler = (selectedYear: number) => {
+    if (
+      selectedYear < 1 ||
+      selectedYear > 999 ||
+      !Number.isInteger(selectedYear)
+    )
+      return;
+    dispatch(chartDataActions.selectYear({ year: selectedYear }));
+  };
 
   useOnClickOutside(ref, () => setIsFocused(false));
 
@@ -107,12 +122,12 @@ export default function YearInput({
       <Input
         type="number"
         width={width}
-        value={inputValue}
+        value={Number(year)}
         onFocus={() => {
           setIsFocused(true);
         }}
         onChange={(e) => {
-          setInputValue(Number(e.target.value));
+          selectYearHandler(Number(e.target.value));
         }}
       />
       <SvgWrapper>
@@ -131,8 +146,9 @@ export default function YearInput({
           {SUGGESTION.map((item) => {
             return (
               <DropDownItem
+                key={item}
                 onClick={() => {
-                  setInputValue(item);
+                  selectYearHandler(item);
                   setIsFocused(false);
                 }}
               >

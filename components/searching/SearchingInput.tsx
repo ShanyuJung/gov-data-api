@@ -119,13 +119,18 @@ export default function SearchingInput({
   width,
   placeholder,
   defaultSuggestions,
+  inputValue,
+  setValueHandler,
+  cleanValueHandler,
 }: {
   label: string;
   width: string;
   placeholder: string;
   defaultSuggestions: string[];
+  inputValue: string;
+  setValueHandler: (value: string) => void;
+  cleanValueHandler: () => void;
 }) {
-  const [inputValue, setInputValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>(defaultSuggestions);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isShowButton, setIsShowButton] = useState<boolean>(false);
@@ -160,14 +165,14 @@ export default function SearchingInput({
           setIsFocused(true);
         }}
         onChange={(e) => {
-          setInputValue(e.target.value);
+          setValueHandler(e.target.value);
         }}
       />
       {inputValue && (
         <CleanButton
           $isShowButton={isShowButton}
           onClick={() => {
-            setInputValue("");
+            cleanValueHandler();
           }}
         >
           <svg
@@ -198,7 +203,17 @@ export default function SearchingInput({
       {isFocused && (
         <DropDownMenu>
           {suggestions.map((item) => {
-            return <DropDownItem>{item}</DropDownItem>;
+            return (
+              <DropDownItem
+                key={item}
+                onClick={() => {
+                  setValueHandler(item);
+                  setIsFocused(false);
+                }}
+              >
+                {item}
+              </DropDownItem>
+            );
           })}
         </DropDownMenu>
       )}
