@@ -51,7 +51,7 @@ const SubmitButton = styled.button<{ $isEnable: boolean }>`
 
 export default function SearchingGroup() {
   const chartData = useSelector((state: RootState) => state.chartData);
-  const { year, county, district } = chartData;
+  const { year, county, district, isFetching } = chartData;
   const [districtSuggestions, setDistrictSuggestions] = useState<string[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
@@ -74,6 +74,7 @@ export default function SearchingGroup() {
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isFetching) return;
     if (!year || !county || !district) return;
     router.push(`${year}/${county}/${district}`);
   };
@@ -106,7 +107,9 @@ export default function SearchingGroup() {
           setValueHandler={selectDistrictHandler}
           cleanValueHandler={cleanDistrictHandler}
         />
-        <SubmitButton $isEnable={!!year && !!county && !!district}>
+        <SubmitButton
+          $isEnable={!!year && !!county && !!district && !isFetching}
+        >
           Submit
         </SubmitButton>
       </Form>
