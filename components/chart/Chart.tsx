@@ -12,6 +12,7 @@ const ChartContainer = styled.div`
   align-items: center;
   padding-top: 42px;
   gap: 40px;
+  width: 100%;
 `;
 
 const ChartTitle = styled.h1`
@@ -31,9 +32,12 @@ const ErrorMessage = styled.h1`
 `;
 
 const ChartWrapper = styled.div`
+  padding: 0px 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  overflow-x: auto;
 `;
 
 const BAR_CHART_OPTIONS = {
@@ -96,6 +100,7 @@ export default function Chart() {
       .reduce((acc, cur) => {
         return acc + cur;
       }, initialValue);
+
     setPieData([
       { category: "共同生活", total: sumOrdinary },
       { category: "獨立生活", total: sumSingle },
