@@ -1,10 +1,14 @@
+import { RootState } from "@/store";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const ChartContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding-top: 42px;
+  gap: 40px;
 `;
 
 const ChartTitle = styled.h1`
@@ -19,9 +23,15 @@ const ChartTitle = styled.h1`
   }
 `;
 
+const ErrorMessage = styled.h1`
+  color: red;
+`;
+
 export default function Chart() {
   const router = useRouter();
   const params = router.query.data;
+  const chartData = useSelector((state: RootState) => state.chartData);
+  const { errorMessage } = chartData;
 
   if (typeof params === "string" || typeof params === "undefined") return null;
 
@@ -30,6 +40,7 @@ export default function Chart() {
   return (
     <ChartContainer>
       <ChartTitle>{`${params[0]}年 ${params[1]} ${params[2]}`}</ChartTitle>
+      {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
     </ChartContainer>
   );
 }

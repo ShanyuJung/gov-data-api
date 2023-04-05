@@ -7,6 +7,7 @@ const initialState = {
   district: "",
   items: [],
   isFetching: false,
+  errorMessage: "",
 };
 
 const chartDataSlice = createSlice({
@@ -37,6 +38,9 @@ const chartDataSlice = createSlice({
     },
     endFetching(state) {
       state.isFetching = false;
+    },
+    setErrorMessage(state, action) {
+      state.errorMessage = action.payload.errorMessage;
     },
   },
 });
