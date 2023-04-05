@@ -1,7 +1,7 @@
 import { COUNTIES, DISTRICTS_OBJ } from "@/assets/DUMMY_DATA";
 import { AppDispatch, RootState } from "@/store";
-import { fetchDataHandler } from "@/store/chartDataActions";
 import { chartDataActions } from "@/store/chartDataSlice";
+import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -54,6 +54,7 @@ export default function SearchingGroup() {
   const { year, county, district } = chartData;
   const [districtSuggestions, setDistrictSuggestions] = useState<string[]>([]);
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const selectCountyHandler = (selectedCounty: string) => {
     dispatch(chartDataActions.selectCounty({ county: selectedCounty }));
@@ -74,7 +75,7 @@ export default function SearchingGroup() {
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!year || !county || !district) return;
-    dispatch(fetchDataHandler(year, county, district));
+    router.push(`${year}/${county}/${district}`);
   };
 
   useEffect(() => {
