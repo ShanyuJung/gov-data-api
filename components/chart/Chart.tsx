@@ -13,6 +13,7 @@ const ChartContainer = styled.div`
   padding-top: 42px;
   gap: 40px;
   width: 100%;
+  max-width: 800px;
 `;
 
 const ChartTitle = styled.h1`
