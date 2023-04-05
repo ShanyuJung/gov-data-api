@@ -21,6 +21,13 @@ const chartDataSlice = createSlice({
     selectDistrict(state, action) {
       state.district = action.payload.district;
     },
+    cleanCounty(state) {
+      state.county = "";
+      state.district = "";
+    },
+    cleanDistrict(state) {
+      state.district = "";
+    },
   },
 });
 

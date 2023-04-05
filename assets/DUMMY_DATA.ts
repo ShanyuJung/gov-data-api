@@ -394,7 +394,7 @@ export const DISTRICTS = [
   "連江縣東引鄉",
 ];
 
-export const DISTRICTS_OBJ = {
+export const DISTRICTS_OBJ: { [key: string]: { districts: string[] } } = {
   新北市: {
     districts: [
       "板橋區",
