@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import Setting from "./Setting";
 
@@ -11,6 +12,7 @@ const HeaderContainer = styled.header`
   padding: 0 16px;
   position: sticky;
   top: 0;
+  z-index: 50;
 `;
 
 const Logo = styled.div`
@@ -25,9 +27,16 @@ const Logo = styled.div`
 `;
 
 function Header() {
+  const router = useRouter();
   return (
     <HeaderContainer>
-      <Logo>LOGO</Logo>
+      <Logo
+        onClick={() => {
+          router.push("/");
+        }}
+      >
+        LOGO
+      </Logo>
       <Setting />
     </HeaderContainer>
   );
