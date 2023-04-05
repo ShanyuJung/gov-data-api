@@ -1,5 +1,6 @@
 import { COUNTIES, DISTRICTS_OBJ } from "@/assets/DUMMY_DATA";
 import { AppDispatch, RootState } from "@/store";
+import { fetchDataHandler } from "@/store/chartDataActions";
 import { chartDataActions } from "@/store/chartDataSlice";
 import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +51,7 @@ const SubmitButton = styled.button<{ $isEnable: boolean }>`
 
 export default function SearchingGroup() {
   const chartData = useSelector((state: RootState) => state.chartData);
-  const { county, district } = chartData;
+  const { year, county, district } = chartData;
   const [districtSuggestions, setDistrictSuggestions] = useState<string[]>([]);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -72,6 +73,8 @@ export default function SearchingGroup() {
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!year || !county || !district) return;
+    dispatch(fetchDataHandler(year, county, district));
   };
 
   useEffect(() => {
@@ -102,7 +105,9 @@ export default function SearchingGroup() {
           setValueHandler={selectDistrictHandler}
           cleanValueHandler={cleanDistrictHandler}
         />
-        <SubmitButton $isEnable={false}>Submit</SubmitButton>
+        <SubmitButton $isEnable={!!year && !!county && !!district}>
+          Submit
+        </SubmitButton>
       </Form>
     </SearchingGroupContainer>
   );

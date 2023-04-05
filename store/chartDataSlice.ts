@@ -28,6 +28,9 @@ const chartDataSlice = createSlice({
     cleanDistrict(state) {
       state.district = "";
     },
+    updateItems(state, action) {
+      state.items = action.payload.items;
+    },
   },
 });
 
