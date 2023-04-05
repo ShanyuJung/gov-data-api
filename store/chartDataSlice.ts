@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { IResponseData } from "@/types/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -8,6 +9,13 @@ const initialState = {
   items: [],
   isFetching: false,
   errorMessage: "",
+} as {
+  year: string;
+  county: string;
+  district: string;
+  items: IResponseData[];
+  isFetching: boolean;
+  errorMessage: string;
 };
 
 const chartDataSlice = createSlice({
